@@ -9,14 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.com.pierredev.crud.data.vo.Produto;
-import br.com.pierredev.crud.data.vo.ProdutoV0;
+import org.modelmapper.ModelMapper;
+
+import br.com.pierredev.crud.data.vo.ProdutoVO;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 
 @Entity
 @Table(name = "produto")
@@ -27,9 +29,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Produto implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
-	
+
+	private static final long serialVersionUID = 840917418532642260L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -43,8 +45,7 @@ public class Produto implements Serializable {
 	@Column(name = "preco", nullable = false, length = 10)
 	private Double preco;
 	
-	public static Produto create(ProdutoV0 produtoV0) {
-		return new ModelMapper()
+	public static Produto create(ProdutoVO produtoVO) {
+		return new ModelMapper().map(produtoVO, Produto.class);
 	}
-
 }

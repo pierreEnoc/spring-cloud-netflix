@@ -6,4 +6,5 @@ import br.com.pierredev.crud.entity.Produto;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
+	
 }
