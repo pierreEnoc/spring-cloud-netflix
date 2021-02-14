@@ -41,7 +41,7 @@ public class ProdutoController {
 		this.assembler = assembler;
 	}
 	
-	@GetMapping(value = "/{id}", produces = {"application/joson", "application/xml", "application/x-yaml"})
+	@GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
 	public ProdutoVO findById(@PathVariable("id") Long id) {
 		ProdutoVO produtoVO = produtoService.findById(id);
 		produtoVO.add(linkTo(methodOn(ProdutoController.class).findById(id)).withSelfRel());
@@ -50,9 +50,9 @@ public class ProdutoController {
 	}
 	
 
-	@GetMapping(value = "/{id}", produces = {"application/joson", "application/xml", "application/x-yaml"})
-	public  ResponseEntity<?> findByIdAll(@RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "limit", defaultValue = "0") int limit,
+	@GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
+	public  ResponseEntity<?> finddAll(@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "12") int limit,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
 		//if ternal
 		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
@@ -68,25 +68,22 @@ public class ProdutoController {
 		return new ResponseEntity<>(pagedModel, HttpStatus.OK);
 	}
 	
-	@PostMapping(produces = {"application/joson", "application/xml", "application/x-yaml"},
-			     consumes = {"application/joson", "application/xml", "application/x-yaml"})
+		@PostMapping(produces = {"application/json","application/xml","application/x-yaml"}, 
+			     consumes = {"application/json","application/xml","application/x-yaml"})
 	public ProdutoVO create(@RequestBody ProdutoVO produtoVO) {
 		ProdutoVO proVo = produtoService.create(produtoVO);
-		produtoVO.add(linkTo(methodOn(ProdutoController.class).findById(produtoVO.getId())).withSelfRel());
-		
+		proVo.add(linkTo(methodOn(ProdutoController.class).findById(proVo.getId())).withSelfRel());
 		return proVo;
-		
 	}
 	
-	@PutMapping(produces = {"application/joson", "application/xml", "application/x-yaml"},
-		     consumes = {"application/joson", "application/xml", "application/x-yaml"})
-public ProdutoVO upadte(@RequestBody ProdutoVO produtoVO) {
-	ProdutoVO proVo = produtoService.update(produtoVO);
-	produtoVO.add(linkTo(methodOn(ProdutoController.class).findById(produtoVO.getId())).withSelfRel());
-	
-	return proVo;
-	
-	}
+
+		@PutMapping(produces = {"application/json","application/xml","application/x-yaml"}, 
+			     consumes = {"application/json","application/xml","application/x-yaml"})
+		public ProdutoVO update(@RequestBody ProdutoVO produtoVO) {
+			ProdutoVO proVo = produtoService.update(produtoVO);
+			proVo.add(linkTo(methodOn(ProdutoController.class).findById(produtoVO.getId())).withSelfRel());
+			return proVo;
+		}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
