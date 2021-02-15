@@ -27,7 +27,7 @@ public class ProdutoService {
 	
 	public ProdutoVO create(ProdutoVO produtoV0) {
 		ProdutoVO proVoRetorno = ProdutoVO.create(produtoRepository.save(Produto.create(produtoV0)));
-		produtoSendMessage.sendMessage(produtoV0);
+		produtoSendMessage.sendMessage(proVoRetorno);
 		return proVoRetorno;
 	}
 	
